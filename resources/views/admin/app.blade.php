@@ -14,5 +14,6 @@
     @include('admin.partials.right-side')
     @include('admin.partials._footer')
 </div>
+@include('admin.partials._js')
 </body>
 </html>

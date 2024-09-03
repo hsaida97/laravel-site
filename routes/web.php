@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Front\HomeController as FrontHomeController;
 use App\Http\Controllers\Admin\DashboardController as DashboardController;
 use App\Http\Controllers\Admin\BlogController as BlogController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,13 +14,13 @@ Route::get('/services', [FrontHomeController::class, 'services'])->name('front.s
 Route::get('/portfolio', [FrontHomeController::class, 'portfolio'])->name('front.portfolio');
 Route::get('/blogs', [FrontHomeController::class, 'blogs'])->name('front.blogs');
 Route::get('/contact', [FrontHomeController::class, 'contact'])->name('front.contact');
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route:: prefix('blog')->name('blog.')->group(function () {
-        Route:: get('/', [BlogController::class, 'index'])->name('blog');
-    });
+
+Route:: middleware('guest')->get('/login', function () {
+    auth()->logout();
+    return view('login.index');
 });
+Route:: post('/login', [LoginController::class, 'login'])->name('login');
 
-
-
-
+//Auth::routes(); (Hazır template login)
+//
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
