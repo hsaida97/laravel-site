@@ -13,11 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(6)->create();
 
         // Corrected: Specify the Blog model
-//        Blog::factory(100)->create();
-//        Category::factory(50)->create();
+        Blog::factory(50)->create();
+        Category::factory(10)->create();
+
+        $this->call([BlogSeeder::class, UserSeeder::class]);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

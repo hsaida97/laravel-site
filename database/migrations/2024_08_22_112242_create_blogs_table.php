@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('title');
 //            $table->unsignedInteger('category_id');
             $table->foreignId('category_id')->nullable()->references('id')->on('categories')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->string('image')->nullable();
             $table->string('content');
             $table->timestamps();

@@ -46,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body table-responsive p-0" style="height:300px; ">
+                        <div class="card-body p-0">
                             <table class="table table-head-fixed text-wrap">
                                 <thead>
                                 <tr>
@@ -65,7 +65,8 @@
                                         <td>{{$blog->id}}</td>
                                         <td>{{$blog->title}}</td>
                                         <td>{{substr($blog->content, 0, 15)}}</td>
-                                        <td><img src="{{asset('storage/'. $blog->image)}}" style="height:50px; width:50px" alt=""></td>
+                                        <td><img src="{{asset('storage/'. $blog->image)}}"
+                                                 style="height:50px; width:50px" alt=""></td>
                                         <td>{{$blog->category->name ?? ''}}</td>
                                         <td>{{$blog->created_at}}</td>
                                         <td>{{$blog->updated_at}}</td>
@@ -84,7 +85,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
+
                         </div>
+                        {{$blogs->links()}}
                     </div>
                 </div>
             </div>

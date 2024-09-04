@@ -9,11 +9,17 @@ class Blog extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content', 'image', 'category_id'];
+    protected $fillable = ['title', 'content', 'image', 'category_id', 'user_id'];
 
 //    protected $guarded =[];
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

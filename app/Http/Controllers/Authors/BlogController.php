@@ -1,27 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Authors;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Blog\BlogStoreRequest;
-use App\Http\Requests\Admin\Blog\BlogUpdateRequest;
 use App\Models\Blog;
 use App\Models\Category;
 use DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use \Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
 use Str;
-use Validator;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $blogs = Blog:: whereHas('category')->with(['category'])->orderBy('id', 'DESC')->paginate(10);
+        $blogs = Blog:: whereHas('category')->where('user_id', auth()->user()->id)->with(['category', 'user'])->orderBy('id', 'DESC')->paginate(10);
         return view('admin.pages.blog.index', ['blogs' => $blogs]);
     }
 
@@ -50,6 +45,7 @@ class BlogController extends Controller
             $request['file']->storeAs('public/' . 'blog', $fileName);
             $request['image'] = 'blog/' . $fileName;
         }
+        $request['user_id'] = auth()->user()->id;
         try {
             DB:: beginTransaction();
             Blog:: create(
@@ -79,6 +75,9 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
+        if ($blog->user_id != auth()->user()->id) {
+            return back()->withErrors('Icaze Yoxdur');
+        }
         $categories = Category:: all();
         return view('admin.pages.blog.edit', ['blog' => $blog, 'categories' => $categories]);
     }
@@ -98,6 +97,10 @@ class BlogController extends Controller
      */
     public function update(BlogStoreRequest $request, Blog $blog)
     {
+        if ($blog->user_id != auth()->user()->id) {
+            return back()->withErrors('Icaze Yoxdur');
+        }
+
         $request = $request->validated();
 
         if (isset($request['file'])) {
@@ -166,6 +169,9 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
+        if ($blog->user_id != auth()->user()->id) {
+            return back()->withErrors('Icaze Yoxdur');
+        }
         try {
             DB:: beginTransaction();
             if (!is_null($blog->image)) {

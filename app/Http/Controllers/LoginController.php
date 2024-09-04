@@ -11,9 +11,9 @@ class LoginController extends Controller
     {
         $cred = $request->only('email', 'password');
         if (Auth:: attempt($cred)) {
-            return redirect()->route('admin.pages.dashboard');
+            return view('admin.pages.dashboard');
         } else {
-            dd(2);
+            return redirect()->make('error','Gris edilmedi');
         }
     }
 }

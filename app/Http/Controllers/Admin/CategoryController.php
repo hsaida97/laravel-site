@@ -11,10 +11,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-//    public function _construct()
-//    {
-//        $this->middleware('adminId', ['only' => ['edit']]);
-//    }
+
 
     /**
      * Display a listing of the resource.
