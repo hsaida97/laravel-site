@@ -15,12 +15,18 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        $checkAdmin = auth()->user()->is_admin;
-        if ($checkAdmin == 1) {
-            return redirect()-> route('admin.pages.dashboard');
-        } elseif($checkAdmin==2){
-            return redirect()-> route('authors.dashboard');
+        $user = auth()->user();
+
+        if ($user === null) {
+            return redirect()->route('login');
         }
-        return $next($request);
+
+        $checkAdmin = $user->is_admin;
+
+        if ($checkAdmin == 1) {
+            return $next($request);
+        } else {
+            return redirect()->route('front.index');
+        }
     }
 }

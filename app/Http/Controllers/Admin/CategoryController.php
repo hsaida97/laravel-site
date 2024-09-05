@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Category\CategoryUpdateRequest;
 use App\Models\Category;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
